@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="UTF-8">
+    <title>Sushma Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  
+
+    <!-- Center Popup -->
+<div id="centerPopup" class="center-popup hidden">
+    <div class="popup-box">
+        <span class="close-btn" onclick="closePopup()">✖</span>
+        <h2 id="popupTitle"></h2>
+        <ul id="popupContent"></ul>
+    </div>
+</div>
+
+    <div id="centerMsg" class="center-msg hidden"></div>
+
+
+<!-- Hamburger Toggle -->
+<span class="sidebar-toggle" onclick="toggleSidebar()">
+    <i class="fa fa-bars"></i>
+</span>
+
+<!-- Sidebar -->
+<div class="sidebar closed" id="sidebar">
+    <a href="#" onclick="showSection('dashboard')"><i class="fa fa-home"></i> Dashboard</a>
+    <a href="#" onclick="showSection('addStudent')"><i class="fa fa-user-plus"></i> Add Student</a>
+    <a href="#" onclick="showSection('addBook')"><i class="fa fa-book-medical"></i> Add Book</a>
+    <a href="#" onclick="showSection('studentRecord')"><i class="fa fa-users"></i> Student Record</a>
+    <a href="#" onclick="showSection('bookRecord')"><i class="fa fa-book"></i> Book Record</a>
+    <a href="#" onclick="toggleGuidelines()"><i class="fa fa-list"></i> Guidelines</a>
+<a href="#" onclick="toggleOrder()"><i class="fa fa-box"></i> Order & Management</a>
+<a href="#" onclick="toggleOthers()"><i class="fa fa-ellipsis-h"></i> Others</a>
+<a href="#" onclick="logout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
+
+
+</div>
+
+
+<!-- Clock -->
+<div class="clock" id="clock"></div>
+
+<div class="main" id="main">
+    <!-- Message container -->
+    <div id="message" class="message"></div>
+    <div id="msg" class="msg"></div>
+    
+<div id="guidelinesMsg" class="toggle-msg hidden">
+    📘 Please return books on time • Keep silence • Handle books carefully
+</div>
+
+<div id="orderMsg" class="toggle-msg hidden">
+    📦 Check pending orders • Update inventory regularly • Communicate with suppliers
+</div>
+
+<div id="othersMsg" class="toggle-msg hidden">
+    ✨ New arrivals • Digital library • Reading events coming soon!
+</div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="section active">
+        <h1 class="welcome">Welcome to the Sushma Library Management System</h1>
+        <p class="quote">“A room without books is like a body without a soul.”</p>
+    </div>
+
+    <!-- Add Student -->
+    <div id="addStudent" class="section">
+        <h2>Add Student</h2>
+        <div class="card">
+            <h2>Add student</h2>
+            <input type="text" id="studentName" placeholder="Student Name">
+            <input type="text" id="studentLibraryCardNumber" placeholder="Library Card Number">
+            <input type="text" id="studentFaculty" placeholder="Faculty">
+            <button onclick="addStudent()">Add Student</button>
+        </div>
+    </div>
+
+    <!-- Add Book -->
+    <div id="addBook" class="section">
+        <div class="card">
+            <h2>Add Book</h2>
+            <input id="bName" placeholder="Book Name">
+            <input id="bAuthor" placeholder="Author Name">
+            <button onclick="addBook()">Add Book</button>
+        </div>
+    </div>
+
+    <!-- Student Record -->
+    <div id="studentRecord" class="section">
+        <div class="card">
+            <h2>Student Records</h2>
+            <table>
+            
+                    <tr><th>Name</th><th>Library Card</th><th>Faculty</th></tr>
+                </thead>
+                <tbody id="studentTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Book Record -->
+    <div id="bookRecord" class="section">
+        <div class="card">
+            <h2>Book Records</h2>
+            <table>
+                <thead>
+                    <tr><th>Book</th><th>Author</th></tr>
+                </thead>
+                <tbody id="bookTable"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Popups -->
+    <div id="guidelines" class="popup hidden">
+        📘 Keep silence • Return books on time • Handle books carefully
+    </div>
+
+    <div id="orders" class="popup hidden">
+        📦 Book orders are processed within 24 hours
+    </div>
+
+    <div id="management" class="popup hidden">
+        🏛 Managed by Sushma Library Administration Team
+    </div>
+
+    <div id="others" class="popup hidden">
+        ✨ New arrivals • Digital library • Reading events coming soon!
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

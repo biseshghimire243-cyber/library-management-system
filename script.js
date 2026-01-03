@@ -7,7 +7,6 @@ function toggleSidebar() {
     main.classList.toggle('shift');     // shift main content
 }
 
-
 /* Sections */
 function showSection(id) {
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
@@ -47,12 +46,16 @@ function addStudent() {
     const name = document.getElementById('studentName').value.trim();
     const libraryCard = document.getElementById('studentLibraryCardNumber').value.trim();
     const faculty = document.getElementById('studentFaculty').value.trim();
+const Bookname = document.getElementById('studentbookname').value.trim();
+const Totalbookcollected = document.getElementById('Totalbookcollected').value.trim();
 
-    if(name && libraryCard && faculty){
-        students.push({name, libraryCard, faculty});
+    if(name && libraryCard && faculty && Bookname && Totalbookcollected ){
+        students.push({name, libraryCard, faculty, Bookname, Totalbookcollected });
         document.getElementById('studentName').value = '';
         document.getElementById('studentLibraryCardNumber').value = '';
         document.getElementById('studentFaculty').value = '';
+        document.getElementById('studentbookname').value = '';
+        document.getElementById('Totalbookcollected').value = '';
         showMessage("Student added successfully!"); // ✅ show message
         updateStudentTable();
         showSection('studentRecord');
@@ -70,6 +73,8 @@ function updateStudentTable() {
         row.insertCell(0).innerText = s.name;
         row.insertCell(1).innerText = s.libraryCard;
         row.insertCell(2).innerText = s.faculty;
+        row.insertCell(3).innerText = s.Bookname;
+        row.insertCell(4).innerText = s.Totalbookcollected;
     });
 }
 
@@ -143,18 +148,12 @@ function toggleOthers() {
     );
 }
 function logout() {
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login/login.html";
+    localStorage.removeItem("loggedIn"); // remove login flag
+    window.location.href = "login/login.html"; // redirect to login page
 }
-if (!localStorage.getItem("loggedIn")) {
-    window.location.href = "login/login.html";
-}
-function logout() {
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login/login.html";
-}
-function logout() {
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login/login.html";
+
+// Check login on page load
+if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login/login.html"; // force login
 }
 

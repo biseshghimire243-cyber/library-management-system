@@ -13,7 +13,16 @@
   "type": "commonjs",
   "dependencies": {
     "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
     "express": "^5.2.1",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biseshghimire243-cyber/library-management-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/biseshghimire243-cyber/library-management-system/issues"
+  },
+  "homepage": "https://github.com/biseshghimire243-cyber/library-management-system#readme"
 }

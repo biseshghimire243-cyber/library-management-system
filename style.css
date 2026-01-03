@@ -82,9 +82,9 @@ body {
 /* Cards */
 .card {
     background: rgba(92, 89, 89, 0.95);
-    padding: 20px;
+    padding: 50px;
     border-radius: 10px;
-    max-width: 330px;
+    max-width:500px;
     margin: 100px auto;
 }
 

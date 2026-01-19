@@ -39,6 +39,7 @@
     <a href="#" onclick="toggleGuidelines()"><i class="fa fa-list"></i> Guidelines</a>
 <a href="#" onclick="toggleOrder()"><i class="fa fa-box"></i> Order & Management</a>
 <a href="#" onclick="toggleOthers()"><i class="fa fa-ellipsis-h"></i> Others</a>
+<a href="#" onclick="toggleOthers()"><i class="fa fa-users"></i> Admin</a>
 <a href="#" onclick="logout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
 
 
@@ -70,6 +71,7 @@
         <h1 class="welcome">Welcome to the Sushma Library Management System</h1>
         <p class="quote">“A room without books is like a body without a soul.”</p>
     </div>
+    
 
     <!-- Add Student -->
     <div id="addStudent" class="section">
@@ -85,16 +87,22 @@
         </div>
     </div>
 
-    <!-- Add Book -->
     <div id="addBook" class="section">
-        <div class="card">
-            <h2>Add Book</h2>
-            <input id="bName" placeholder="Book Name">
-            <input id="bAuthor" placeholder="Author Name">
-            
-            <button onclick="addBook()">Add Book</button>
-        </div>
+    <div class="card">
+        <h2>Add Book</h2>
+
+        <input type="text" id="bTitle" placeholder="Book Title">
+        <input type="text" id="bAuthor" placeholder="Author Name">
+        <input type="text" id="bPublisher" placeholder="Publisher">
+        <input type="text" id="bISBN" placeholder="ISBN Number">
+        <input type="text" id="bShelf" placeholder="Shelf Number">
+        <input type="date" id="bDate">
+        <textarea id="bDescription" placeholder="Book Description"></textarea>
+
+        <button onclick="addBook()">Add Book</button>
     </div>
+</div>
+
 
     <!-- Student Record -->
     <div id="studentRecord" class="section">
@@ -109,19 +117,28 @@
         </div>
     </div>
 
-    <!-- Book Record -->
-    <div id="bookRecord" class="section">
-        <div class="card">
-            <h2>Book Records</h2>
-            <table>
-                <thead>
-                    <tr><th>Book</th><th>Author</th></tr>
-                </thead>
-                <tbody id="bookTable"></tbody>
-            </table>
-        </div>
+   <div id="bookRecord" class="section">
+    <div class="card">
+        <h2>Book Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                    <th>ISBN</th>
+                    <th>Shelf</th>
+                    <th>Date Added</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="bookTable"></tbody>
+        </table>
     </div>
 </div>
+
+
+
 
 
     <!-- Popups -->
@@ -142,6 +159,7 @@
     </div>
 
 </div>
+
 
 <script src="script.js"></script>
 

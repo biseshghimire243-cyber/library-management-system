@@ -78,32 +78,42 @@ function updateStudentTable() {
     });
 }
 
-// Add Book
 function addBook() {
-    const name = document.getElementById('bName').value.trim();
-    const author = document.getElementById('bAuthor').value.trim();
+    const title = document.getElementById("bTitle").value.trim();
+    const author = document.getElementById("bAuthor").value.trim();
+    const publisher = document.getElementById("bPublisher").value.trim();
+    const isbn = document.getElementById("bISBN").value.trim();
+    const shelf = document.getElementById("bShelf").value.trim();
+    const date = document.getElementById("bDate").value;
+    const description = document.getElementById("bDescription").value.trim();
 
-    if(name && author){
-        books.push({name, author});
-        document.getElementById('bName').value = '';
-        document.getElementById('bAuthor').value = '';
-        showMessage("Book added successfully!");
-        updateBookTable();
-        showSection('bookRecord');
-    } else {
-        showMessage("Please fill all fields", "#dc3545");
+    if (!title || !author || !publisher || !isbn || !shelf || !date || !description) {
+        alert("Please fill all book fields");
+        return;
     }
-}
 
-// Update Book Table
-function updateBookTable() {
-    const table = document.getElementById('bookTable');
-    table.innerHTML = '';
-    books.forEach(b => {
-        const row = table.insertRow();
-        row.insertCell(0).innerText = b.name;
-        row.insertCell(1).innerText = b.author;
-    });
+    const table = document.getElementById("bookTable");
+
+    const row = table.insertRow();
+    row.insertCell(0).innerText = title;
+    row.insertCell(1).innerText = author;
+    row.insertCell(2).innerText = publisher;
+    row.insertCell(3).innerText = isbn;
+    row.insertCell(4).innerText = shelf;
+    row.insertCell(5).innerText = date;
+    row.insertCell(6).innerText = description;
+
+    // Clear inputs
+    document.getElementById("bTitle").value = "";
+    document.getElementById("bAuthor").value = "";
+    document.getElementById("bPublisher").value = "";
+    document.getElementById("bISBN").value = "";
+    document.getElementById("bShelf").value = "";
+    document.getElementById("bDate").value = "";
+    document.getElementById("bDescription").value = "";
+
+    alert("Book added successfully!");
+    showSection("bookRecord");
 }
 
 // Clock

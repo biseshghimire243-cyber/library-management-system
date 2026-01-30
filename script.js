@@ -157,6 +157,7 @@ function toggleOthers() {
 ✨ Reading events coming soon!`
     );
 }
+
 function logout() {
     localStorage.removeItem("loggedIn"); // remove login flag
     window.location.href = "login/login.html"; // redirect to login page
@@ -165,5 +166,81 @@ function logout() {
 // Check login on page load
 if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "login/login.html"; // force login
+}
+function showWelcomeSlides() {
+    const slides = document.querySelectorAll(".welcome-slide");
+
+    slides.forEach((slide, index) => {
+        setTimeout(() => {
+            slide.classList.add("show");
+
+            // hide after 2 seconds
+            setTimeout(() => {
+                slide.classList.remove("show");
+            }, 2000);
+
+        }, index * 2200); // delay between slides
+    });
+}
+
+// Show only after login
+window.addEventListener("load", () => {
+    if (localStorage.getItem("loggedIn") === "true") {
+        showWelcomeSlides();
+    }
+});
+function filterStudents() {
+    const search = document.getElementById("studentSearch").value.toLowerCase();
+    const rows = document.querySelectorAll("#studentTable tr");
+
+    rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(search) ? "" : "none";
+    });
+}
+// Load admin dashboard counts
+function loadAdminStats() {
+    document.getElementById("adminStudentCount").innerText =
+        document.querySelectorAll("#studentTable tr").length;
+
+    document.getElementById("adminBookCount").innerText =
+        document.querySelectorAll("#bookTable tr").length;
+}
+
+// Change password (localStorage version)
+function changePassword() {
+    const newPass = document.getElementById("newPassword").value.trim();
+
+    if (!newPass) {
+        showMessage("Password cannot be empty", "#dc3545");
+        return;
+    }
+
+    localStorage.setItem("adminPassword", newPass);
+    showMessage("Password updated successfully");
+    document.getElementById("newPassword").value = "";
+}
+
+// Clear all data
+function clearAllData() {
+    if (!confirm("Are you sure? This will delete all records.")) return;
+
+    localStorage.removeItem("students");
+    localStorage.removeItem("books");
+
+    document.getElementById("studentTable").innerHTML = "";
+    document.getElementById("bookTable").innerHTML = "";
+
+    showMessage("All records cleared", "#dc3545");
+}
+
+// Load admin data when admin panel opens
+function showSection(id) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    if (id === "adminPanel") {
+        loadAdminStats();
+    }
 }
 

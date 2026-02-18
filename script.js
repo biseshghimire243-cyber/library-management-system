@@ -200,10 +200,10 @@ function filterStudents() {
 }
 // Load admin dashboard counts
 function loadAdminStats() {
-    document.getElementById("adminStudentCount").innerText =
+    document.getElementById("adminStudentCount").innerText =20
         document.querySelectorAll("#studentTable tr").length;
 
-    document.getElementById("adminBookCount").innerText =
+    document.getElementById("adminBookCount").innerText =15
         document.querySelectorAll("#bookTable tr").length;
 }
 

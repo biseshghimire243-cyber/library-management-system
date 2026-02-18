@@ -14,8 +14,25 @@
         <input type="password" id="password" placeholder="Password">
 
         <button onclick="login()">Login</button>
+        <p class="forgot-password" onclick="openForgotPopup()">
+    Forgot Password?
+</p>
     </div>
 
     <script src="login.js"></script>
+
+    <!-- Forgot Password Popup -->
+<div id="forgotPopup" class="forgot-popup hidden">
+    <div class="forgot-box">
+        <span class="close-btn" onclick="closeForgotPopup()">✖</span>
+        <h2>Forgot Password</h2>
+
+        <input type="email" id="forgotEmail" placeholder="Enter your Gmail">
+        <input type="password" id="forgotPasscode" placeholder="Enter Passcode">
+
+        <button onclick="submitForgot()">Submit</button>
+    </div>
+</div>
+
 </body>
 </html>

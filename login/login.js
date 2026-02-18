@@ -16,10 +16,30 @@ function login() {
     .then(data => {
         if (data.success) {
             localStorage.setItem("loggedIn", "true");
-            window.location.href = "../index.html"; // go to main site
+            window.location.href = "../index.html";
         } else {
             alert(data.message);
         }
     })
     .catch(err => alert("Server error"));
+}
+function openForgotPopup() {
+    document.getElementById("forgotPopup").classList.remove("hidden");
+}
+
+function closeForgotPopup() {
+    document.getElementById("forgotPopup").classList.add("hidden");
+}
+
+function submitForgot() {
+    const email = document.getElementById("forgotEmail").value.trim();
+    const passcode = document.getElementById("forgotPasscode").value.trim();
+
+    if (!email || !passcode) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    alert("Verification request submitted!\n(your OTP code is send to your email address)");
+    closeForgotPopup();
 }

@@ -228,6 +228,19 @@ function changePassword() {
 }
 
 // Post announcement
+// Load announcements from localStorage on page load
+function loadAnnouncements() {
+    const list = document.getElementById("announcementList");
+    list.innerHTML = "";
+    const saved = JSON.parse(localStorage.getItem("libraryAnnouncements") || "[]");
+    saved.forEach(msg => {
+        const p = document.createElement("p");
+        p.innerText = msg;
+        list.appendChild(p);
+    });
+}
+
+// Post new announcement
 function postAnnouncement() {
     const msg = document.getElementById("libraryAnnouncement").value.trim();
     if (!msg) {
@@ -235,15 +248,28 @@ function postAnnouncement() {
         return;
     }
 
-    const list = document.getElementById("announcementList");
-    const p = document.createElement("p");
-    p.innerText = msg;
-    list.prepend(p); // show newest first
+    // Get saved announcements or empty array
+    let saved = JSON.parse(localStorage.getItem("libraryAnnouncements") || "[]");
+    saved.unshift(msg); // add newest on top
+    localStorage.setItem("libraryAnnouncements", JSON.stringify(saved));
+
+    // Update display
+    loadAnnouncements();
 
     showMessage("Announcement posted successfully!");
     document.getElementById("libraryAnnouncement").value = "";
 }
 
+// Call loadAnnouncements when admin panel is opened
+function showSection(id) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    if (id === "adminPanel") {
+        loadAdminStats();       // update book/student counts
+        loadAnnouncements();    // load announcements
+    }
+}
 // Clear all data
 function clearAllData() {
     if (!confirm("Are you sure? This will delete all records.")) return;

@@ -54,21 +54,21 @@ function showStep(step) {
         popup.innerHTML = `
             <div class="forgot-box">
                 <span class="close-btn" onclick="closeForgotPopup()">✖</span>
-                <h2>Enter OTP for ${forgotEmailGlobal}</h2>
+               <h2>Enter OTP</h2>
                 <input type="text" id="fpOTP" placeholder="Enter OTP">
                 <button onclick="verifyOTP()">Verify OTP</button>
             </div>
         `;
     } else if (step === 3) {
-        popup.innerHTML = `
-            <div class="forgot-box">
-                <span class="close-btn" onclick="closeForgotPopup()">✖</span>
-                <h2>Change Password for ${forgotEmailGlobal}</h2>
-                <input type="password" id="fpNewPassword" placeholder="New Password">
-                <input type="password" id="fpConfirmPassword" placeholder="Confirm Password">
-                <button onclick="changePassword()">Change Password</button>
-            </div>
-        `;
+       popup.innerHTML = `
+    <div class="forgot-box">
+        <span class="close-btn" onclick="closeForgotPopup()">✖</span>
+        <h2>Change Password</h2>
+        <input type="password" id="fpNewPassword" placeholder="New Password">
+        <input type="password" id="fpConfirmPassword" placeholder="Confirm Password">
+        <button onclick="changePassword()">Change Password</button>
+    </div>
+`;
     }
 }
 

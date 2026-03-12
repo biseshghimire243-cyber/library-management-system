@@ -76,6 +76,7 @@ function updateStudentTable() {
         row.insertCell(3).innerText = s.Bookname;
         row.insertCell(4).innerText = s.Totalbookcollected;
     });
+    loadAdminStats();
 }
 
 function addBook() {
@@ -113,6 +114,7 @@ function addBook() {
     document.getElementById("bDescription").value = "";
 
     alert("Book added successfully!");
+    loadAdminStats();
     showSection("bookRecord");
 }
 
@@ -200,11 +202,15 @@ function filterStudents() {
 }
 // Load admin dashboard counts
 function loadAdminStats() {
-    document.getElementById("adminStudentCount").innerText =20
-        document.querySelectorAll("#studentTable tr").length;
+    // Count all student rows, excluding the first row (header)
+    const studentTableRows = document.querySelectorAll("#studentRecord table tr");
+    const studentCount = studentTableRows.length - 1; // subtract header row
 
-    document.getElementById("adminBookCount").innerText =15
-        document.querySelectorAll("#bookTable tr").length;
+    const bookTableRows = document.querySelectorAll("#bookRecord table tr");
+    const bookCount = bookTableRows.length - 1; // subtract header row
+
+    document.getElementById("adminStudentCount").innerText = studentCount;
+    document.getElementById("adminBookCount").innerText = bookCount;
 }
 
 // Change password (localStorage version)
@@ -219,6 +225,23 @@ function changePassword() {
     localStorage.setItem("adminPassword", newPass);
     showMessage("Password updated successfully");
     document.getElementById("newPassword").value = "";
+}
+
+// Post announcement
+function postAnnouncement() {
+    const msg = document.getElementById("libraryAnnouncement").value.trim();
+    if (!msg) {
+        showMessage("Please write something to announce", "#dc3545");
+        return;
+    }
+
+    const list = document.getElementById("announcementList");
+    const p = document.createElement("p");
+    p.innerText = msg;
+    list.prepend(p); // show newest first
+
+    showMessage("Announcement posted successfully!");
+    document.getElementById("libraryAnnouncement").value = "";
 }
 
 // Clear all data

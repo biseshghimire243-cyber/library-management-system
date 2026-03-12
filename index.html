@@ -118,7 +118,13 @@
 
             <table>
             
-                    <tr><th>Name</th><th>Library Card</th><th>Faculty</th><th>bookname</th><th>Totalbook.c</th>
+                    <tr>
+<th>Name</th>
+<th>Library Card</th>
+<th>Faculty</th>
+<th>Book Name</th>
+<th>Total Books</th>
+</tr>
                     <tr><td>Bishesh ghimire</td><td>9852</td><td>B.sc.csit</td><td>OS,CN,DSA,MATH,C</td><td>5</td></tr>
                     <tr><td>sushant ghimire</td><td>9853</td><td>B.sc.csit</td><td>OS,CN,DSA,MATH,C</td><td>5</td></tr>
                     <tr><td>Nischal neupane</td><td>9854</td><td>B.sc.csit</td><td>OS,CN,DSA,MATH,C</td><td>5</td></tr>
@@ -207,9 +213,12 @@
 
         <hr>
 
-        <h3>🔑 Change Login Password</h3>
-        <input type="password" id="newPassword" placeholder="New Password">
-        <button onclick="changePassword()">Update Password</button>
+        <!-- Library Announcements -->
+        <h3>📢 Library Announcements</h3>
+        <textarea id="libraryAnnouncement" placeholder="Write your announcement here"></textarea>
+        <button onclick="postAnnouncement()">Post Announcement</button>
+
+        <div id="announcementList" style="margin-top:10px;"></div>
 
         <hr>
 

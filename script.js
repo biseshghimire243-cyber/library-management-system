@@ -1,35 +1,36 @@
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const main = document.getElementById('main');
-
-    // toggle open/close
-    sidebar.classList.toggle('open');   // matches CSS
-    main.classList.toggle('shift');     // shift main content
-}
-
-/* Sections */
-function showSection(id) {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-}
-
-/* Students */
-// Arrays for students and books
+/* Sidebar & Sections */
 let students = [];
 let books = [];
 
-// Sidebar toggle
+// Load saved data from localStorage
+window.addEventListener("load", () => {
+    const savedStudents = localStorage.getItem("students");
+    const savedBooks = localStorage.getItem("books");
+
+    if (savedStudents) students = JSON.parse(savedStudents);
+    if (savedBooks) books = JSON.parse(savedBooks);
+
+    updateStudentTable(); // populate student table
+    updateBookTable();    // populate book table
+    updateAdminCounts();  // update admin counts
+});
+
+/* Sidebar toggle */
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
 }
 
-// Show sections
+/* Show sections */
 function showSection(id) {
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
+
+    if (id === "adminPanel") {
+        updateAdminCounts();
+    }
 }
 
-// Show message
+/* Show message */
 function showMessage(text, color = "#28a745") {
     const msg = document.getElementById("message");
     msg.innerText = text;
@@ -41,30 +42,37 @@ function showMessage(text, color = "#28a745") {
     }, 3000);
 }
 
-// Add Student
+/* Add Student */
 function addStudent() {
     const name = document.getElementById('studentName').value.trim();
     const libraryCard = document.getElementById('studentLibraryCardNumber').value.trim();
     const faculty = document.getElementById('studentFaculty').value.trim();
-const Bookname = document.getElementById('studentbookname').value.trim();
-const Totalbookcollected = document.getElementById('Totalbookcollected').value.trim();
+    const Bookname = document.getElementById('studentbookname').value.trim();
+    const Totalbookcollected = document.getElementById('Totalbookcollected').value.trim();
 
     if(name && libraryCard && faculty && Bookname && Totalbookcollected ){
         students.push({name, libraryCard, faculty, Bookname, Totalbookcollected });
+
+        // Save students to localStorage
+        localStorage.setItem("students", JSON.stringify(students));
+
+        // Clear inputs
         document.getElementById('studentName').value = '';
         document.getElementById('studentLibraryCardNumber').value = '';
         document.getElementById('studentFaculty').value = '';
         document.getElementById('studentbookname').value = '';
         document.getElementById('Totalbookcollected').value = '';
-        showMessage("Student added successfully!"); // ✅ show message
+
+        showMessage("Student added successfully!");
         updateStudentTable();
+        updateAdminCounts();
         showSection('studentRecord');
     } else {
-        showMessage("Please fill all fields", "#dc3545"); // red for error
+        showMessage("Please fill all fields", "#dc3545");
     }
 }
 
-// Update Student Table
+/* Update Student Table */
 function updateStudentTable() {
     const table = document.getElementById('studentTable');
     table.innerHTML = '';
@@ -76,9 +84,9 @@ function updateStudentTable() {
         row.insertCell(3).innerText = s.Bookname;
         row.insertCell(4).innerText = s.Totalbookcollected;
     });
-    loadAdminStats();
 }
 
+/* Add Book */
 function addBook() {
     const title = document.getElementById("bTitle").value.trim();
     const author = document.getElementById("bAuthor").value.trim();
@@ -89,20 +97,14 @@ function addBook() {
     const description = document.getElementById("bDescription").value.trim();
 
     if (!title || !author || !publisher || !isbn || !shelf || !date || !description) {
-        alert("Please fill all book fields");
+        showMessage("Please fill all book fields", "#dc3545");
         return;
     }
 
-    const table = document.getElementById("bookTable");
+    books.push({ title, author, publisher, isbn, shelf, date, description });
 
-    const row = table.insertRow();
-    row.insertCell(0).innerText = title;
-    row.insertCell(1).innerText = author;
-    row.insertCell(2).innerText = publisher;
-    row.insertCell(3).innerText = isbn;
-    row.insertCell(4).innerText = shelf;
-    row.insertCell(5).innerText = date;
-    row.insertCell(6).innerText = description;
+    // Save books to localStorage
+    localStorage.setItem("books", JSON.stringify(books));
 
     // Clear inputs
     document.getElementById("bTitle").value = "";
@@ -113,28 +115,75 @@ function addBook() {
     document.getElementById("bDate").value = "";
     document.getElementById("bDescription").value = "";
 
-    alert("Book added successfully!");
-    loadAdminStats();
+    showMessage("Book added successfully!");
+    updateBookTable();
+    updateAdminCounts();
     showSection("bookRecord");
 }
 
-// Clock
+/* Update Book Table */
+function updateBookTable() {
+    const table = document.getElementById("bookTable");
+    table.innerHTML = '';
+    books.forEach(b => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = b.title;
+        row.insertCell(1).innerText = b.author;
+        row.insertCell(2).innerText = b.publisher;
+        row.insertCell(3).innerText = b.isbn;
+        row.insertCell(4).innerText = b.shelf;
+        row.insertCell(5).innerText = b.date;
+        row.insertCell(6).innerText = b.description;
+    });
+}
+
+/* Admin Counts */
+function updateAdminCounts() {
+    document.getElementById("adminStudentCount").innerText = students.length;
+    document.getElementById("adminBookCount").innerText = books.length;
+}
+
+/* Filter Students */
+function filterStudents() {
+    const search = document.getElementById("studentSearch").value.toLowerCase();
+    const rows = document.querySelectorAll("#studentTable tr");
+
+    rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(search) ? "" : "none";
+    });
+}
+
+/* Filter Books */
+function filterBooks() {
+    const search = document.getElementById("bookSearch").value.toLowerCase();
+    const rows = document.querySelectorAll("#bookTable tr");
+
+    rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(search) ? "" : "none";
+    });
+}
+
+/* Clock */
 setInterval(() => {
     document.getElementById('clock').innerText = new Date().toLocaleTimeString();
 }, 1000);
+
+/* Center Messages */
 function showCenterMsg(text) {
     const msg = document.getElementById('centerMsg');
-    const formattedText = text.replace(/\n/g, '<br>'); // convert newlines to <br>
+    const formattedText = text.replace(/\n/g, '<br>');
 
     if(msg.innerHTML === formattedText && !msg.classList.contains('hidden')){
-        msg.classList.add('hidden'); // hide if same message showing
+        msg.classList.add('hidden');
     } else {
         msg.innerHTML = formattedText;
         msg.classList.remove('hidden');
     }
 }
 
-// Sidebar buttons
+/* Sidebar info buttons */
 function toggleGuidelines() {
     showCenterMsg(
 `📘 Please return books on time
@@ -160,136 +209,44 @@ function toggleOthers() {
     );
 }
 
+/* Logout */
 function logout() {
-    localStorage.removeItem("loggedIn"); // remove login flag
-    window.location.href = "login/login.html"; // redirect to login page
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login/login.html";
 }
 
-// Check login on page load
-if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "login/login.html"; // force login
-}
+/* Welcome Slides */
 function showWelcomeSlides() {
     const slides = document.querySelectorAll(".welcome-slide");
 
     slides.forEach((slide, index) => {
         setTimeout(() => {
             slide.classList.add("show");
-
-            // hide after 2 seconds
             setTimeout(() => {
                 slide.classList.remove("show");
             }, 2000);
-
-        }, index * 2200); // delay between slides
+        }, index * 2200);
     });
 }
 
-// Show only after login
 window.addEventListener("load", () => {
     if (localStorage.getItem("loggedIn") === "true") {
         showWelcomeSlides();
     }
 });
-function filterStudents() {
-    const search = document.getElementById("studentSearch").value.toLowerCase();
-    const rows = document.querySelectorAll("#studentTable tr");
 
-    rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(search) ? "" : "none";
-    });
-}
-// Load admin dashboard counts
-function loadAdminStats() {
-    // Count all student rows, excluding the first row (header)
-    const studentTableRows = document.querySelectorAll("#studentRecord table tr");
-    const studentCount = studentTableRows.length - 1; // subtract header row
-
-    const bookTableRows = document.querySelectorAll("#bookRecord table tr");
-    const bookCount = bookTableRows.length - 1; // subtract header row
-
-    document.getElementById("adminStudentCount").innerText = studentCount;
-    document.getElementById("adminBookCount").innerText = bookCount;
-}
-
-// Change password (localStorage version)
-function changePassword() {
-    const newPass = document.getElementById("newPassword").value.trim();
-
-    if (!newPass) {
-        showMessage("Password cannot be empty", "#dc3545");
-        return;
-    }
-
-    localStorage.setItem("adminPassword", newPass);
-    showMessage("Password updated successfully");
-    document.getElementById("newPassword").value = "";
-}
-
-// Post announcement
-// Load announcements from localStorage on page load
-function loadAnnouncements() {
-    const list = document.getElementById("announcementList");
-    list.innerHTML = "";
-    const saved = JSON.parse(localStorage.getItem("libraryAnnouncements") || "[]");
-    saved.forEach(msg => {
-        const p = document.createElement("p");
-        p.innerText = msg;
-        list.appendChild(p);
-    });
-}
-
-// Post new announcement
-function postAnnouncement() {
-    const msg = document.getElementById("libraryAnnouncement").value.trim();
-    if (!msg) {
-        showMessage("Please write something to announce", "#dc3545");
-        return;
-    }
-
-    // Get saved announcements or empty array
-    let saved = JSON.parse(localStorage.getItem("libraryAnnouncements") || "[]");
-    saved.unshift(msg); // add newest on top
-    localStorage.setItem("libraryAnnouncements", JSON.stringify(saved));
-
-    // Update display
-    loadAnnouncements();
-
-    showMessage("Announcement posted successfully!");
-    document.getElementById("libraryAnnouncement").value = "";
-}
-
-// Call loadAnnouncements when admin panel is opened
-function showSection(id) {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-
-    if (id === "adminPanel") {
-        loadAdminStats();       // update book/student counts
-        loadAnnouncements();    // load announcements
-    }
-}
-// Clear all data
+/* Clear all data */
 function clearAllData() {
     if (!confirm("Are you sure? This will delete all records.")) return;
 
+    students = [];
+    books = [];
     localStorage.removeItem("students");
     localStorage.removeItem("books");
 
-    document.getElementById("studentTable").innerHTML = "";
-    document.getElementById("bookTable").innerHTML = "";
+    updateStudentTable();
+    updateBookTable();
+    updateAdminCounts();
 
     showMessage("All records cleared", "#dc3545");
 }
-
-// Load admin data when admin panel opens
-function showSection(id) {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-
-    if (id === "adminPanel") {
-        loadAdminStats();
-    }
-}
-
